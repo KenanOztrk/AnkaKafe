@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnkaKafe.UI", "AnkaKafe.UI\AnkaKafe.UI.csproj", "{455A84E9-6365-450A-B3C2-299653BEBB48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnkaKafe.Data", "AnkaKafe.Data\AnkaKafe.Data.csproj", "{ECF4E446-70AE-4F46-9391-9DE1A1CFED12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{455A84E9-6365-450A-B3C2-299653BEBB48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455A84E9-6365-450A-B3C2-299653BEBB48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455A84E9-6365-450A-B3C2-299653BEBB48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455A84E9-6365-450A-B3C2-299653BEBB48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF4E446-70AE-4F46-9391-9DE1A1CFED12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF4E446-70AE-4F46-9391-9DE1A1CFED12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF4E446-70AE-4F46-9391-9DE1A1CFED12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF4E446-70AE-4F46-9391-9DE1A1CFED12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A07E235F-0FF4-4ED2-B698-CD3996CD42F1}
+	EndGlobalSection
+EndGlobal
