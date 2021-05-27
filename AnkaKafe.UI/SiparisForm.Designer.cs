@@ -65,6 +65,7 @@ namespace AnkaKafe.UI
             this.btnEkle.TabIndex = 1;
             this.btnEkle.Text = "EKLE";
             this.btnEkle.UseVisualStyleBackColor = true;
+            this.btnEkle.Click += new System.EventHandler(this.btnEkle_Click);
             // 
             // dgvSiparisDetaylar
             // 
@@ -87,6 +88,7 @@ namespace AnkaKafe.UI
             // 
             // cboUrun
             // 
+            this.cboUrun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboUrun.FormattingEnabled = true;
             this.cboUrun.Location = new System.Drawing.Point(12, 37);
             this.cboUrun.Name = "cboUrun";
@@ -105,6 +107,7 @@ namespace AnkaKafe.UI
             // cboMasaNo
             // 
             this.cboMasaNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboMasaNo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMasaNo.FormattingEnabled = true;
             this.cboMasaNo.Location = new System.Drawing.Point(487, 36);
             this.cboMasaNo.Name = "cboMasaNo";
@@ -224,7 +227,6 @@ namespace AnkaKafe.UI
             this.MinimumSize = new System.Drawing.Size(802, 492);
             this.Name = "SiparisForm";
             this.Text = "Masa 1 Sipariş Bilgileri";
-            this.Load += new System.EventHandler(this.SiparisForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSiparisDetaylar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAdet)).EndInit();
             this.ResumeLayout(false);
