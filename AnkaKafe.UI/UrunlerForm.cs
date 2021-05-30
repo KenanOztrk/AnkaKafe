@@ -35,7 +35,7 @@ namespace AnkaKafe.UI
 
             if (urunAd == "")
             {
-                MessageBox.Show("lütfen bir ürün adı giriniz.");
+                MessageBox.Show("Lütfen Bir Ürün Adı Giriniz.");
                 return;
             }
 
