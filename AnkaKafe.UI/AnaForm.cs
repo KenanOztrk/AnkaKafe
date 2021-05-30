@@ -50,11 +50,11 @@ namespace AnkaKafe.UI
         {
             if (e.ClickedItem == tsmiUrunler)
             {
-                new UrunlerForm().ShowDialog();
+                new UrunlerForm(db).ShowDialog();
             }
             else if (e.ClickedItem == tsmiGecmisSiparisler)
             {
-                new GecmisSiparislerForm().ShowDialog();
+                new GecmisSiparislerForm(db).ShowDialog();
             }
         }
 
@@ -73,9 +73,14 @@ namespace AnkaKafe.UI
 
             }
 
-            //todo: bu siparişi başka bir formda aç
+            // bu siparişi başka bir formda aç
             SiparisForm siparisForm = new SiparisForm(db,siparis);
             siparisForm.ShowDialog();
+
+            if (siparis.Durum != SiparisDurum.Aktif)
+            {
+                lvi.ImageKey = "bos";
+            }
 
         }
 

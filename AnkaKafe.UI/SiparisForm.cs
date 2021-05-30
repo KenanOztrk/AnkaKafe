@@ -15,17 +15,27 @@ namespace AnkaKafe.UI
     {
         private readonly KafeVeri _db;
         private readonly Siparis _siparis;
+        private readonly BindingList<SiparisDetay> _blSiparisDetaylar;
         public SiparisForm(KafeVeri kafeVeri, Siparis siparis)
         {
             _db = kafeVeri;
             _siparis = siparis;
+            _blSiparisDetaylar = new BindingList<SiparisDetay>(siparis.SiparisDetaylar);
             InitializeComponent();
+            dgvSiparisDetaylar.AutoGenerateColumns = false;
             UrunleriGoster();
+            EkleFormSifirla();
             MasaNoGuncelle();
             FiyatGuncelle();
             DetaylariListele();
+            _blSiparisDetaylar.ListChanged += _blSiparisDetaylar_ListChanged;
 
 
+        }
+
+        private void _blSiparisDetaylar_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            FiyatGuncelle();
         }
 
         private void UrunleriGoster()
@@ -46,7 +56,13 @@ namespace AnkaKafe.UI
 
         private void btnEkle_Click(object sender, EventArgs e)
         {
+            if (cboUrun.SelectedIndex == -1) return;
             Urun urun = (Urun)cboUrun.SelectedItem;
+
+            SiparisDetay mevcut = _siparis.SiparisDetaylar.FirstOrDefault(x => x.UrunAd == urun.UrunAd);
+
+            if (mevcut == null)
+            {
 
             SiparisDetay siparisDetay = new SiparisDetay()
             {
@@ -56,15 +72,69 @@ namespace AnkaKafe.UI
 
             };
 
-            _siparis.SiparisDetaylar.Add(siparisDetay);
-            DetaylariListele();
+            _blSiparisDetaylar.Add(siparisDetay);
+            }
 
+            else
+            {
+                mevcut.Adet += (int)nudAdet.Value;
+                _blSiparisDetaylar.ResetBindings();
+
+            }
+
+            EkleFormSifirla();
+            
+            
+
+        }
+
+        private void EkleFormSifirla()
+        {
+            cboUrun.SelectedIndex = -1;
+            nudAdet.Value = 1;
         }
 
         private void DetaylariListele()
         {
-            dgvSiparisDetaylar.DataSource = null;
-            dgvSiparisDetaylar.DataSource = _siparis.SiparisDetaylar;
+            
+            dgvSiparisDetaylar.DataSource = _blSiparisDetaylar;
+        }
+
+        private void dgvSiparisDetaylar_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            DialogResult dr = MessageBox.Show(
+                text:"secili sipariş detayları silinecektir. emin misin?",
+                caption: "silme onayı",
+                buttons: MessageBoxButtons.YesNo,
+                icon: MessageBoxIcon.Exclamation,
+                defaultButton: MessageBoxDefaultButton.Button2
+                );
+            e.Cancel = dr == DialogResult.No;
+        }
+
+        private void btnAnasayfa_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btnIptal_Click(object sender, EventArgs e)
+        {
+            SiparisKapat(SiparisDurum.Iptal,0);
+        }
+
+        private void btnOde_Click(object sender, EventArgs e)
+        {
+            SiparisKapat(SiparisDurum.Odendi,_siparis.ToplamTutar());
+        }
+
+        private void SiparisKapat(SiparisDurum siparisDurum, decimal odenenTutar)
+        {
+            _siparis.OdenenTutar = odenenTutar;
+            _siparis.Durum = siparisDurum;
+            _siparis.KapanisZamani = DateTime.Now;
+            _db.AktifSiparisler.Remove(_siparis);
+            _db.GecmisSiparisler.Add(_siparis);
+            Close();
         }
     }
 }
