@@ -1,5 +1,7 @@
 ﻿using AnkaKafe.Data;
 using System;
+using System.IO;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,15 +15,29 @@ namespace AnkaKafe.UI
 {
     public partial class AnaForm : Form
     {
-        KafeVeri db = new KafeVeri();
+        KafeVeri db;
         public AnaForm()
         {
-            OrnekurunleriEkle();
+            VerileriOku();
             InitializeComponent();
             masalarImageList.Images.Add("bos", Resource.bos);
             masalarImageList.Images.Add("dolu", Resource.dolu);
             MasalarıOlustur();
 
+        }
+
+        private void VerileriOku()
+        {
+            try
+            {
+                string json = File.ReadAllText("veri.json");
+                db = JsonSerializer.Deserialize<KafeVeri>(json);
+            }
+            catch (Exception)
+            {
+                db = new KafeVeri();
+                OrnekurunleriEkle();
+            }
         }
 
         private void OrnekurunleriEkle()
@@ -40,10 +56,15 @@ namespace AnkaKafe.UI
                 lvi = new ListViewItem();
                 lvi.Tag = i;
                 lvi.Text = "Masa " + i;
-                lvi.ImageKey = "bos";
+                lvi.ImageKey = MasaDolumu(i) ?"dolu" : "bos";
                 lvwMasalar.Items.Add(lvi);
 
             }
+        }
+
+        private bool MasaDolumu(int masaNo)
+        {
+            return db.AktifSiparisler.Any(x => x.MasaNo == masaNo);
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -63,7 +84,7 @@ namespace AnkaKafe.UI
             ListViewItem lvi = lvwMasalar.SelectedItems[0];
             int masaNo = (int)lvi.Tag;
             lvi.ImageKey = "dolu";
-            //eğer bu masada önceden sipariş yoksa oluştur
+            
             Siparis siparis = SiparisBul(masaNo);
 
             if (siparis == null)
@@ -73,8 +94,11 @@ namespace AnkaKafe.UI
 
             }
 
-            // bu siparişi başka bir formda aç
+           
             SiparisForm siparisForm = new SiparisForm(db,siparis);
+
+            siparisForm.MasaTasindi += SiparisForm_MasaTasindi;
+
             siparisForm.ShowDialog();
 
             if (siparis.Durum != SiparisDurum.Aktif)
@@ -82,6 +106,22 @@ namespace AnkaKafe.UI
                 lvi.ImageKey = "bos";
             }
 
+        }
+
+        private void SiparisForm_MasaTasindi(object sender, MasaTasındıEventArgs e)
+        {
+            foreach (ListViewItem lvi in lvwMasalar.Items)
+            {
+                int masaNo = (int)lvi.Tag;
+                if ( masaNo == e.EskiMasaNo)
+                {
+                    lvi.ImageKey = "bos";
+                }
+                else if (masaNo == e.YeniMasaNo)
+                {
+                    lvi.ImageKey = "dolu";
+                }
+            }
         }
 
         private Siparis SiparisBul(int masaNo)
@@ -98,6 +138,18 @@ namespace AnkaKafe.UI
             }
 
             return null;
+        }
+
+        private void AnaForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            VerileriKaydet();
+        }
+
+        private void VerileriKaydet()
+        {
+            var options = new JsonSerializerOptions() { WriteIndented = true };
+            string json = JsonSerializer.Serialize(db,options);
+            File.WriteAllText("veri.json", json);
         }
     }
 }

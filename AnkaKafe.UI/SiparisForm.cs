@@ -13,6 +13,8 @@ namespace AnkaKafe.UI
 {
     public partial class SiparisForm : Form
     {
+        public event EventHandler<MasaTasındıEventArgs> MasaTasindi;
+
         private readonly KafeVeri _db;
         private readonly Siparis _siparis;
         private readonly BindingList<SiparisDetay> _blSiparisDetaylar;
@@ -28,9 +30,25 @@ namespace AnkaKafe.UI
             MasaNoGuncelle();
             FiyatGuncelle();
             DetaylariListele();
+            MasaNolariDoldur();
             _blSiparisDetaylar.ListChanged += _blSiparisDetaylar_ListChanged;
 
 
+        }
+
+        private void MasaNolariDoldur()
+        {
+            List<int> bosMasaNolar = new List<int>();
+            for (int i = 1; i <= _db.MasaAdet; i++)
+            {
+                if (!_db.AktifSiparisler.Any(x => x.MasaNo == i))
+                {
+                    bosMasaNolar.Add(i);
+                }
+
+            }
+
+            cboMasa.DataSource = bosMasaNolar;
         }
 
         private void _blSiparisDetaylar_ListChanged(object sender, ListChangedEventArgs e)
@@ -135,6 +153,24 @@ namespace AnkaKafe.UI
             _db.AktifSiparisler.Remove(_siparis);
             _db.GecmisSiparisler.Add(_siparis);
             Close();
+        }
+
+        private void btnTasi_Click(object sender, EventArgs e)
+        {
+            if (cboMasa.SelectedIndex == -1)
+                return;
+            int eskiMasaNo = _siparis.MasaNo;
+            int yeniMasaNo = (int)cboMasa.SelectedItem;
+            _siparis.MasaNo = yeniMasaNo;
+
+            MasaNolariDoldur();
+            if (MasaTasindi != null)
+            {
+                MasaTasindi(this, new MasaTasındıEventArgs(eskiMasaNo, yeniMasaNo));
+            }
+            MasaNoGuncelle();
+
+            
         }
     }
 }

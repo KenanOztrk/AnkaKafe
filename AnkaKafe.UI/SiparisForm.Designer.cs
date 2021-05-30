@@ -39,7 +39,7 @@ namespace AnkaKafe.UI
             this.nudAdet = new System.Windows.Forms.NumericUpDown();
             this.cboUrun = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cboMasaNo = new System.Windows.Forms.ComboBox();
+            this.cboMasa = new System.Windows.Forms.ComboBox();
             this.btnTasi = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblMasaNo = new System.Windows.Forms.Label();
@@ -156,15 +156,15 @@ namespace AnkaKafe.UI
             this.label2.TabIndex = 5;
             this.label2.Text = "Adet";
             // 
-            // cboMasaNo
+            // cboMasa
             // 
-            this.cboMasaNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboMasaNo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboMasaNo.FormattingEnabled = true;
-            this.cboMasaNo.Location = new System.Drawing.Point(487, 36);
-            this.cboMasaNo.Name = "cboMasaNo";
-            this.cboMasaNo.Size = new System.Drawing.Size(157, 33);
-            this.cboMasaNo.TabIndex = 6;
+            this.cboMasa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboMasa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMasa.FormattingEnabled = true;
+            this.cboMasa.Location = new System.Drawing.Point(487, 36);
+            this.cboMasa.Name = "cboMasa";
+            this.cboMasa.Size = new System.Drawing.Size(157, 33);
+            this.cboMasa.TabIndex = 6;
             // 
             // btnTasi
             // 
@@ -175,6 +175,7 @@ namespace AnkaKafe.UI
             this.btnTasi.TabIndex = 7;
             this.btnTasi.Text = "TAŞI";
             this.btnTasi.UseVisualStyleBackColor = true;
+            this.btnTasi.Click += new System.EventHandler(this.btnTasi_Click);
             // 
             // label3
             // 
@@ -271,7 +272,7 @@ namespace AnkaKafe.UI
             this.Controls.Add(this.lblMasaNo);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnTasi);
-            this.Controls.Add(this.cboMasaNo);
+            this.Controls.Add(this.cboMasa);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cboUrun);
             this.Controls.Add(this.nudAdet);
@@ -297,7 +298,7 @@ namespace AnkaKafe.UI
         private System.Windows.Forms.NumericUpDown nudAdet;
         private System.Windows.Forms.ComboBox cboUrun;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cboMasaNo;
+        private System.Windows.Forms.ComboBox cboMasa;
         private System.Windows.Forms.Button btnTasi;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblMasaNo;
